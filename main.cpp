@@ -11,39 +11,41 @@ using namespace std;
 
 
 
-float vert[] = {1, 1, 2,  1, -1, 2,  -1, -1, 2,  -1, 1, 2}; // массив точек для отображения пола
-float normal_vert[]={1, 1, 2,  1, -1, 2,  -1, -1, 2,  -1, 1, 2}; // массив точек нормалей
+float vert[] = {1, 1, 2,  1, -1, 2,  -1, -1, 2,  -1, 1, 2};       // С‚РѕС‡РєРё РґР»СЏ РґРѕСЃРєРё
+float normal_vert[]={1, 1, 2,  1, -1, 2,  -1, -1, 2,  -1, 1, 2}; // С‚РѕС‡РєРё РґР»СЏ РЅРѕСЂРјР°Р»РµР№
 
-int n = 100; // размер поля
+int n = 100; // СЂР°Р·РјРµСЂ РїРѕР»СЏ
 
-void Init_Light() {// освещение
+void Init_Light() { // СЂРµР°Р»РёР·Р°С†РёСЏ РѕСЃРІРµС‰РµРЅРёСЏ
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_NORMALIZE);
-    GLfloat light_position[] = { 0.0f, 0.0f, -2.0f, 1.0f }; // источник света
-    GLfloat light_spot_direction[] = {0.0, 0.0, -1.0, 1.0}; // позиция цели
+    GLfloat light_position[] = { 0.0f, 0.0f, -2.0f, 1.0f }; // РёСЃС‚РѕС‡РЅРёРє
+    GLfloat light_spot_direction[] = {0.0, 0.0, -1.0, 1.0}; // РїРѕР·РёС†РёСЏ С†РµР»Рё
     GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     GLfloat light_specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 30); // конус для направленного источника
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 30);                // РєРѕРЅСѓСЃ РґР»СЏ РЅР°РїСЂР°РІР»РµРЅРЅРѕРіРѕ РёСЃС‚РѕС‡РЅРёРєР°
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light_spot_direction);
-    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 10.0); // экспонента
-    //убывания интенсивности
-    //задействование настроек для источника LIGHT0
+    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT, 10.0);
+    
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glEnable(GL_LIGHT0); // источник света LIGHT0
+    glEnable(GL_LIGHT0);
 }
 void Init_Material() {
-    glEnable(GL_COLOR_MATERIAL); //разрешения использования материала
-    glShadeModel(GL_SMOOTH); // сглаживает границы
+    glEnable(GL_COLOR_MATERIAL);
+    glShadeModel(GL_SMOOTH);
+    
+    // РїР°СЂР°РјРµС‚СЂС‹ РјР°С‚РµСЂРёР°Р»Р° РґР»СЏ РІР·Р°РёРјРѕРґРµР№СЃС‚РІРёСЏ СЃРѕ СЃРІРµС‚РѕРј
     GLfloat material_ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
     GLfloat material_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     GLfloat material_specular[] = { 1.0f, 1.0f, 1.0f, 32.0f };
-    GLfloat material_shininess[] = { 50.0f }; //блеск материала
+    GLfloat material_shininess[] = { 50.0f };
+    
     glMaterialfv(GL_FRONT, GL_AMBIENT, material_ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, material_diffuse);
     glMaterialfv(GL_FRONT, GL_SPECULAR, material_specular);
@@ -52,7 +54,7 @@ void Init_Material() {
 
 
 
-void Draw_Cube(){ //отрисовка куба
+void Draw_Cube(){
 GLfloat vertices[] = {
  -0.5f, -0.5f, -0.5f,
  0.5f, -0.5f, -0.5f,
@@ -114,14 +116,14 @@ glDisableClientState(GL_NORMAL_ARRAY);
 }
 
 
-void MovePlayer(){ // интерактив в сцене
+void MovePlayer(){ // РёРЅС‚РµСЂР°РєС‚РёРІ РІ СЃС†РµРЅРµ
     Camera_DirectionalMovement(GetKeyState('W')<0 ? 1 : (GetKeyState('S')< 0 ? -1 : 0),
                                 GetKeyState('D')<0 ? 1 : (GetKeyState('A')< 0 ? -1 : 0),
                                 0.1);
     Camera_MouseMovement(400,400,0.5);
 }
 
-void ShowWorld() // Отрисовка сцены (поле)
+void ShowWorld() // РѕС‚СЂРёСЃРѕРІРєР° СЃС†РµРЅС‹ (РїРѕР»Рµ)
 {
     glEnableClientState(GL_NORMAL_ARRAY);
     glNormalPointer(GL_FLOAT,0,&normal_vert);
@@ -133,9 +135,9 @@ void ShowWorld() // Отрисовка сцены (поле)
             {
                 glPushMatrix();
                     if ((i + j) % 2 == 0)
-                        glColor3f(1, 1, 1); // белый сегмент
+                        glColor3f(1, 1, 1); // Р±РµР»С‹Р№ СЃРµРіРјРµРЅС‚
                     else
-                        glColor3f(0, 0, 0); // черный сегмент
+                        glColor3f(0, 0, 0); // С‡РµСЂРЅС‹Р№ СЃРµРіРјРµРЅС‚
 
                     glTranslatef(i * 2, j * 2, 0);
                     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
@@ -218,7 +220,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     /* enable OpenGL for the window */
     EnableOpenGL(hwnd, &hDC, &hRC);
     glFrustum(-1,1, -1,1, 2,1000);
-    glEnable(GL_DEPTH_TEST); // карта глубины
+    glEnable(GL_DEPTH_TEST); // РєР°СЂС‚Р° РіР»СѓР±РёРЅС‹
     Init_Light();
     Init_Material();
     ShowCursor(false);
@@ -240,7 +242,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
             /* OpenGL animation code goes here */
            glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glPushMatrix();//основные действия
+            glPushMatrix();
                 Camera_Apply();
                 MovePlayer();
                 windowResize(hwnd);
