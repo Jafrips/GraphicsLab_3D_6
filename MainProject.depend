@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1684398099 source:e:\programming\graphics\mainproject6\camera.cpp
+	<windows.h>
+	<gl/gl.h>
+	"camera.h"
+	<math.h>
+
+1684398111 e:\programming\graphics\mainproject6\camera.h
+
