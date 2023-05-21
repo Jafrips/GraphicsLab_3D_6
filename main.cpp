@@ -10,17 +10,34 @@
 using namespace std;
 
 
-
 float vert[] = {1, 1, 2,  1, -1, 2,  -1, -1, 2,  -1, 1, 2};       // точки для доски
 float normal_vert[]={1, 1, 2,  1, -1, 2,  -1, -1, 2,  -1, 1, 2}; // точки для нормалей
 
 int n = 100; // размер поля
+int theta = 0;
 
 void Init_Light() { // реализация освещения
     glEnable(GL_LIGHTING);
     glEnable(GL_COLOR_MATERIAL);
     glShadeModel(GL_SMOOTH);
-    glEnable(GL_NORMALIZE);
+    
+    glPushMatrix();
+    theta += 1;
+    GLfloat light_position[] = { -3.0f, 0.0f, -1.0f, 1.0f }; // источник
+    //параметры
+    GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    GLfloat light_specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+    glRotatef(theta, 0, 0, 1);
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
+    glEnable(GL_LIGHT0);
+    glPopMatrix();
+    
+    /*glEnable(GL_NORMALIZE);
     GLfloat light_position[] = { 0.0f, 0.0f, -2.0f, 1.0f }; // источник
     GLfloat light_spot_direction[] = {0.0, 0.0, -1.0, 1.0}; // позиция цели
     GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -34,7 +51,7 @@ void Init_Light() { // реализация освещения
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT0);*/
 }
 void Init_Material() {
     glEnable(GL_COLOR_MATERIAL);
@@ -221,7 +238,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
     EnableOpenGL(hwnd, &hDC, &hRC);
     glFrustum(-1,1, -1,1, 2,1000);
     glEnable(GL_DEPTH_TEST); // карта глубины
-    Init_Light();
+    //Init_Light();
     Init_Material();
     ShowCursor(false);
 
@@ -243,6 +260,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
            glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glPushMatrix();
+                Init_Light();
                 Camera_Apply();
                 MovePlayer();
                 windowResize(hwnd);
